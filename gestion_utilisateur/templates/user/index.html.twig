@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+  <div class="container">
+   <center> <h1>Gestion des utilisateurs</h1> </center>
+     <a  href="{{ path('app_user_new') }}">      
+     Ajouter utilisateur</a>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Taper le nom de l'utilisateur..">
+    <table id="myTable" class="table table-hovered">
+        <thead>
+            <tr>
+                <th>Identifiant</th>
+                <th>Pseudo</th>
+                <th>Role</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.role }}</td>
+                <td>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}">Détail</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Editer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Pas d'utilisateurs pour le moment </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+ <script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>   
+{% endblock %}
